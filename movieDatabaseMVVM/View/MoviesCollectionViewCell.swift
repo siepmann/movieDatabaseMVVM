@@ -96,6 +96,7 @@ public class MoviesCollectionViewCell: UICollectionViewCell {
     }
     
     func configureCell(withViewModel viewModel: CollectionViewCellViewModel) {
+        self.tag = viewModel.movieID
         movieNameLabel.text = viewModel.title
         viewModel.setPosterImage(to: posterImage)
     }

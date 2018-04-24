@@ -16,6 +16,10 @@ class CollectionViewCellViewModel {
         self.movie = movie
     }
     
+    var movieID: Int {
+        return movie.id ?? 0
+    }
+    
     var title: String {
         return movie.title ?? ""
     }

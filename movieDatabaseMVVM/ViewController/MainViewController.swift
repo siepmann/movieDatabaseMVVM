@@ -55,7 +55,6 @@ extension MainViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "movieCell", for: indexPath) as! MoviesCollectionViewCell
         cell.configureCell(withViewModel: viewModel.getCellModel(for: indexPath))
-        
         return cell
     }
     

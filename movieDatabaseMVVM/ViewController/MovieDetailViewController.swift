@@ -10,6 +10,8 @@ import UIKit
 import SnapKit
 
 class MovieDetailViewController: UIViewController {
+    private lazy var viewModel: MovieDetailViewModel = MovieDetailViewModel(movieId: currentMovieId, delegate: self)
+    
     private var currentMovieId: Int = 0
     private var scrollView: UIScrollView!
     
@@ -28,15 +30,11 @@ class MovieDetailViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    deinit {
-        
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
         setScrollView()
-        requestMovieDetails()
+        viewModel.getMovieDetail()
     }
     
     func setScrollView() {
@@ -115,9 +113,19 @@ class MovieDetailViewController: UIViewController {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
-    private func requestMovieDetails() {
-        
+}
+
+extension MovieDetailViewController: MovieDetailDelegate {
+    func movieFetched() {
+        guard let model = viewModel.getUIViewModel() else { return}
+        model.setPosterImage(to: moviePoster)
+
+        movieNameLabel.text = model.title
+        moviePlot.text = model.overview
+        movieReleaseDate.text = model.releaseYear
+        movieGenres.text = model.genres
     }
+    
+    
 }
 

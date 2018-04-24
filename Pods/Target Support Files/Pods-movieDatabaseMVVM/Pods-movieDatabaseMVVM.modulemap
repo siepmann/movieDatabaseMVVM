@@ -1,0 +1,6 @@
+framework module Pods_movieDatabaseMVVM {
+  umbrella header "Pods-movieDatabaseMVVM-umbrella.h"
+
+  export *
+  module * { export * }
+}

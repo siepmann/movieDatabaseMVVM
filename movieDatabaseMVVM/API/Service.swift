@@ -17,7 +17,7 @@ protocol ServiceProtocol {
 class Service: ServiceProtocol {
     enum Endpoint: String {
         case popular = "/popular"
-        case detail = ""
+        case detail = "/"
         
         private var fullPath: String {
             return "\(Config.baseMovieURL)\(self.rawValue)"
@@ -31,22 +31,42 @@ class Service: ServiceProtocol {
             return url
         }
         
-        func getURLRequest(withParams params: [String: String]) -> URLRequest {
-            var components = URLComponents(
-                url: Endpoint.popular.url,
-                resolvingAgainstBaseURL: true
-            )
+        private func createURLComponents(_ urlComponent: String = "") -> URLComponents? {
+            var currentURL = self.url
+            if !urlComponent.isEmpty {
+                currentURL = URL(string: self.url.absoluteString + urlComponent)!
+            }
+            
+            var components = URLComponents(url: currentURL, resolvingAgainstBaseURL: true)
             
             // Taking into consideration that all request will need the api_key as a parameter.
-            let queryItems = [URLQueryItem(name: "api_key", value: Config.apiKey)] +
-                params.flatMap { URLQueryItem(name: $0.key, value: $0.value) }
+            let queryItems = [URLQueryItem(name: "api_key", value: Config.apiKey)]
             components?.queryItems = queryItems
             
-            guard let url = components?.url else {
+            return components
+        }
+        
+        func getURLRequest(urlComponent: String = "") -> URLRequest {
+            guard let components = createURLComponents(urlComponent), let _url = components.url else {
+                fatalError("Cannot create an URL")
+            }
+            
+            return URLRequest(url: _url)
+        }
+        
+        func getURLRequest(withParams params: [String: String]) -> URLRequest {
+            guard var components = createURLComponents() else {
+                fatalError("Cannot create an URL")
+            }
+            
+            components.queryItems = components.queryItems! +
+                params.flatMap { URLQueryItem(name: $0.key, value: $0.value) }
+            
+            guard let _url = components.url else {
                 fatalError("Cannot create an URL with the params: \(params)")
             }
             
-            return URLRequest(url: url)
+            return URLRequest(url: _url)
         }
     }
     
@@ -80,7 +100,7 @@ extension Service {
     }
     
     func getMovieDetail(movieId: Int, completion: @escaping ((MovieDetail?) -> Void)) {
-        let requestURL = Endpoint.detail.getURLRequest(withParams: ["movie_id" : "\(movieId)"])
+        let requestURL = Endpoint.detail.getURLRequest(urlComponent: "\(movieId)")
         
         let session = manager.dataTask(with: requestURL) { (data, response, error) in
             guard let data = data, error == nil else {

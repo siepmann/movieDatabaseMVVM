@@ -54,7 +54,7 @@ class MoviesViewModel {
     }
     
     func paginate() {
-        if isRequesting || shouldPaginate { return }
+        if isRequesting || !shouldPaginate { return }
         
         page += 1
         getPopularMovies()

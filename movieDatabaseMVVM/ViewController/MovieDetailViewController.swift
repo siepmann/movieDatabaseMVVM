@@ -106,7 +106,7 @@ class MovieDetailViewController: UIViewController {
             make.topMargin.equalTo(movieGenres.snp.bottomMargin).offset(20)
             make.leadingMargin.equalTo(wrapper).offset(12)
             make.trailingMargin.equalTo(wrapper).offset(-12)
-            make.bottomMargin.equalTo(wrapper)
+            make.bottomMargin.equalTo(wrapper).offset(-12)
         }
     }
     
@@ -117,13 +117,15 @@ class MovieDetailViewController: UIViewController {
 
 extension MovieDetailViewController: MovieDetailDelegate {
     func movieFetched() {
-        guard let model = viewModel.getUIViewModel() else { return}
-        model.setPosterImage(to: moviePoster)
-
-        movieNameLabel.text = model.title
-        moviePlot.text = model.overview
-        movieReleaseDate.text = model.releaseYear
-        movieGenres.text = model.genres
+        DispatchQueue.main.async { [weak self] in
+            guard let model = self?.viewModel.getUIViewModel() else { return}
+            model.setPosterImage(to: (self?.moviePoster)!)
+            
+            self?.movieNameLabel.text = model.title
+            self?.moviePlot.text = model.overview
+            self?.movieReleaseDate.text = model.releaseYear
+            self?.movieGenres.text = model.genres
+        }
     }
     
     

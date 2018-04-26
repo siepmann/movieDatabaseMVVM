@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 
 class MainViewController: UIViewController {
-    var collectionView: UICollectionView!
+    private var collectionView: UICollectionView!
     
     private lazy var viewModel: MoviesViewModel = MoviesViewModel(delegate: self)
     
@@ -31,11 +31,24 @@ class MainViewController: UIViewController {
         
         collectionView.register(MoviesCollectionViewCell.self, forCellWithReuseIdentifier: "movieCell")
         collectionView.backgroundColor = .clear
+        
         self.view.addSubview(collectionView)
     }
 }
 
 extension MainViewController: MoviesViewDelegate {
+    func startLoading() {
+        DispatchQueue.main.async {
+            Spinner.start()
+        }
+    }
+    
+    func stopLoading() {
+        DispatchQueue.main.async {
+            Spinner.stop()
+        }
+    }
+    
     func responseHasMovies() {
         DispatchQueue.main.async { [weak self] in
             self?.collectionView.reloadData()
@@ -67,9 +80,9 @@ extension MainViewController: UICollectionViewDataSource {
 
 extension MainViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) else { return }
+        let model = viewModel.getCellModel(for: indexPath)
+        let detail = MovieDetailViewController(movieId: model.movieID, movieName: model.title)
         
-        let detail = MovieDetailViewController(movieId: cell.tag)
         detail.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(detail, animated: true)
     }

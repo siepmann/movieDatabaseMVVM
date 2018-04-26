@@ -8,10 +8,6 @@
 
 import Foundation
 
-protocol MoviesViewDelegate: class {
-    func responseHasMovies()
-}
-
 class MoviesViewModel {
     private let service = Service()
     private var movies = [Movie]()
@@ -35,6 +31,7 @@ class MoviesViewModel {
     
     fileprivate func getPopularMovies() {
         isRequesting = true
+        delegate?.startLoading()
         service.getPopularMovies(page: page) { [weak self] response in
             self?.isRequesting = false
             guard let _response = response else { return }
@@ -51,6 +48,7 @@ class MoviesViewModel {
         hasNextPage = response.totalPages > page
         movies.append(contentsOf: response.results)
         delegate?.responseHasMovies()
+        delegate?.stopLoading()
     }
     
     func paginate() {

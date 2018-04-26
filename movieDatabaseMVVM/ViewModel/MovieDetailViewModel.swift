@@ -8,10 +8,6 @@
 
 import Foundation
 
-protocol MovieDetailDelegate: class {
-    func movieFetched()
-}
-
 class MovieDetailViewModel {
     private weak var delegate: MovieDetailDelegate?
     private let service = Service()
@@ -26,7 +22,7 @@ class MovieDetailViewModel {
     
     func getMovieDetail() {
         isRequesting = true
-        
+        delegate?.startLoading()
         service.getMovieDetail(movieId: movieId) { [weak self] response in
             self?.isRequesting = false
             guard let _response = response else { return }
@@ -37,6 +33,7 @@ class MovieDetailViewModel {
     
     func getUIViewModel() -> UIViewMovieDetail? {
         guard let detail = movie else { return nil }
+        delegate?.stopLoading()
         return UIViewMovieDetail(detail)
     }
 }

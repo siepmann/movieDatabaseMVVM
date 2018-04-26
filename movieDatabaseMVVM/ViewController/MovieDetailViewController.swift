@@ -20,9 +20,11 @@ class MovieDetailViewController: UIViewController {
     private var moviePlot: UILabel!
     private var movieReleaseDate: UILabel!
     private var movieGenres: UILabel!
+    private var movieNameTitle: String = ""
     
-    init(movieId: Int) {
+    init(movieId: Int, movieName: String) {
         currentMovieId = movieId
+        movieNameTitle = movieName
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -33,6 +35,9 @@ class MovieDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = .white
+        self.navigationController?.navigationBar.topItem?.title = " "
+        self.title = movieNameTitle
+        
         setScrollView()
         viewModel.getMovieDetail()
     }
@@ -116,6 +121,18 @@ class MovieDetailViewController: UIViewController {
 }
 
 extension MovieDetailViewController: MovieDetailDelegate {
+    func startLoading() {
+        DispatchQueue.main.async {
+            Spinner.start()
+        }
+    }
+    
+    func stopLoading() {
+        DispatchQueue.main.async {
+            Spinner.stop()
+        }
+    }
+    
     func movieFetched() {
         DispatchQueue.main.async { [weak self] in
             guard let model = self?.viewModel.getUIViewModel() else { return}
@@ -127,6 +144,7 @@ extension MovieDetailViewController: MovieDetailDelegate {
             self?.movieGenres.text = model.genres
         }
     }
+    
     
     
 }

@@ -102,7 +102,7 @@ class MovieDetailViewController: UIViewController {
         movieGenres.snp.makeConstraints { (make) in
             make.topMargin.equalTo(movieReleaseDate.snp.bottomMargin).offset(20)
             make.leadingMargin.equalTo(wrapper).offset(12)
-            make.trailingMargin.equalTo(wrapper).inset(inset12)
+            make.trailingMargin.equalTo(wrapper).inset(12)
             make.height.equalTo(30)
         }
         

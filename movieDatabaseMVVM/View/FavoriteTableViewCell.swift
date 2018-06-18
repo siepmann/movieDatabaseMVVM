@@ -43,21 +43,21 @@ class FavoriteTableViewCell: UITableViewCell {
         posterImage.snp.makeConstraints { (make) in
             make.width.equalTo(width)
             make.topMargin.equalTo(contentView).offset(10)
-            make.bottomMargin.equalTo(contentView).offset(-10)
+            make.bottomMargin.equalTo(contentView).inset(10)
             make.leadingMargin.equalTo(contentView)
         }
         
         movieNameLabel.snp.makeConstraints { (make) in
             make.topMargin.equalTo(contentView).offset(12)
             make.leadingMargin.equalTo(posterImage.snp.trailingMargin).offset(20)
-            make.trailingMargin.equalTo(contentView).offset(-12)
+            make.trailingMargin.equalTo(contentView).inset(12)
             make.height.equalTo(30)
         }
         
         plotLabel.snp.makeConstraints { (make) in
             make.leadingMargin.equalTo(posterImage.snp.trailingMargin).offset(20)
             make.topMargin.equalTo(movieNameLabel.snp.bottomMargin).offset(8)
-            make.trailingMargin.equalTo(contentView).offset(-12)
+            make.trailingMargin.equalTo(contentView).inset(12)
             make.bottomMargin.equalTo(contentView)
         }
     }

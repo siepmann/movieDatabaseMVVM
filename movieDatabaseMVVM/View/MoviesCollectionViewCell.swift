@@ -62,18 +62,14 @@ public class MoviesCollectionViewCell: UICollectionViewCell {
         posterImage.snp.makeConstraints { (make) in
             make.width.equalTo(cellWidth)
             make.height.equalTo(cellHeight - 40)
-            make.topMargin.equalTo(contentView)
-            make.leadingMargin.equalTo(contentView)
-            make.trailingMargin.equalTo(contentView)
+            make.topMargin.leading.trailing.equalTo(contentView)
         }
         
         footerView.snp.makeConstraints { (make) in
             make.width.equalTo(cellWidth)
             make.height.equalTo(40)
             
-            make.bottomMargin.equalTo(contentView)
-            make.leadingMargin.equalTo(contentView)
-            make.trailingMargin.equalTo(contentView)
+            make.bottomMargin.leadingMargin.trailingMargin.equalTo(contentView)
         }
         
         movieNameLabel.snp.makeConstraints { (make) in

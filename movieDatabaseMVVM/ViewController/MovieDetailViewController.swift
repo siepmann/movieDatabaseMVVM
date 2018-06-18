@@ -66,8 +66,7 @@ class MovieDetailViewController: UIViewController {
         wrapper.addSubview(movieGenres)
         
         scrollView.snp.makeConstraints { make in
-            make.topMargin.equalTo(self.view)
-            make.bottomMargin.equalTo(self.view)
+            make.topMargin.bottomMargin.equalTo(self.view)
             make.width.equalToSuperview()
         }
         
@@ -89,29 +88,29 @@ class MovieDetailViewController: UIViewController {
         movieNameLabel.snp.makeConstraints { (make) in
             make.topMargin.equalTo(moviePoster.snp.bottomMargin).offset(20)
             make.leadingMargin.equalTo(wrapper).offset(12)
-            make.trailingMargin.equalTo(wrapper).offset(-12)
+            make.trailingMargin.equalTo(wrapper).inset(12)
             make.height.equalTo(30)
         }
         
         movieReleaseDate.snp.makeConstraints { (make) in
             make.topMargin.equalTo(movieNameLabel.snp.bottomMargin).offset(20)
             make.leadingMargin.equalTo(wrapper).offset(12)
-            make.trailingMargin.equalTo(wrapper).offset(-12)
+            make.trailingMargin.equalTo(wrapper).inset(12)
             make.height.equalTo(30)
         }
         
         movieGenres.snp.makeConstraints { (make) in
             make.topMargin.equalTo(movieReleaseDate.snp.bottomMargin).offset(20)
             make.leadingMargin.equalTo(wrapper).offset(12)
-            make.trailingMargin.equalTo(wrapper).offset(-12)
+            make.trailingMargin.equalTo(wrapper).inset(inset12)
             make.height.equalTo(30)
         }
         
         moviePlot.snp.makeConstraints { (make) in
             make.topMargin.equalTo(movieGenres.snp.bottomMargin).offset(20)
             make.leadingMargin.equalTo(wrapper).offset(12)
-            make.trailingMargin.equalTo(wrapper).offset(-12)
-            make.bottomMargin.equalTo(wrapper).offset(-12)
+            make.trailingMargin.equalTo(wrapper).inset(12)
+            make.bottomMargin.equalTo(wrapper).inset(12)
         }
     }
     
